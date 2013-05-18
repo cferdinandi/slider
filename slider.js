@@ -917,6 +917,8 @@ $(function () {
 
 })(jQuery);
 
-$(window).load(function() {
-    $('.flexslider').flexslider();
-});
+(function($) {
+    $(window).load(function() {
+        $('.flexslider').flexslider();
+    });
+})(jQuery);
