@@ -850,8 +850,8 @@ $(function () {
     // Primary Controls
     controlNav: true,               //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
     directionNav: true,             //Boolean: Create navigation for previous/next navigation? (true/false)
-    prevText: "<span class='screen-reader'>Previous</span>",           //String: Set the text for the "previous" directionNav item
-    nextText: "<span class='screen-reader'>Next</span>",               //String: Set the text for the "next" directionNav item
+    prevText: "&#9664;<span class='screen-reader'>Previous</span>",           //String: Set the text for the "previous" directionNav item
+    nextText: "&#9654;<span class='screen-reader'>Next</span>",               //String: Set the text for the "next" directionNav item
     
     // Secondary Navigation
     keyboard: true,                 //Boolean: Allow slider navigating via keyboard left/right keys
