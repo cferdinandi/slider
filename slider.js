@@ -1,27 +1,41 @@
 /* =============================================================
- * js-accessibility.js v1.0.0
- * Adds .js class to <body> for progressive enhancement.
- * Script by Chris Ferdinandi - http://gomakethings.com
- * Licensed under WTFPL - http://www.wtfpl.net
+
+    Progressively Enhanced JS v1.0
+    Adds .js class to <body> for progressive enhancement.
+
+    Script by Chris Ferdinandi.
+    http://gomakethings.com
+
+    Licensed under WTFPL.
+    http://www.wtfpl.net
+    
  * ============================================================= */
 
-$(function () {
-    $('body').addClass('js'); // On page load, add the .js class to the <body> element.
-});
+(function($) {
+    $(function () {
+        $('body').addClass('js'); // On page load, add the .js class to the <body> element.
+    });
+})(jQuery);
 
 
 
 
 
 /* =============================================================
- * jquery-flexslider.js v2.1
- * http://www.woothemes.com/flexslider/
- * 
- * Copyright 2012 WooThemes
- * Free to use under the GPLv2 license.
- * http://www.gnu.org/licenses/gpl-2.0.html
- *
- * Contributing author: Tyler Smith (@mbmufffin)
+
+    Slider v2.0
+    A simple, fluid, touch-enabled carousel forked from FlexSlider by WooThemes.
+
+    Script by WooThemes with contributing author Tyler Smith, 2012
+    http://www.woothemes.com/flexslider/
+    https://twitter.com/mbmufffin
+
+    Rebounded by Chris Ferdinandi, 2013.
+    http://gomakethings.com
+
+    Licensed under GPLv2.
+    http://www.gnu.org/licenses/gpl-2.0.html
+    
  * ============================================================= */
 
 ;(function ($) {
@@ -917,6 +931,8 @@ $(function () {
 
 })(jQuery);
 
+
+// Activate Slider
 (function($) {
     $(window).load(function() {
         $('.flexslider').flexslider();
