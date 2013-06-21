@@ -1,5 +1,5 @@
 # Slider
-A simple, fluid, touch-enabled carousel forked from [FlexSlider 2 by Woo Themes](http://www.woothemes.com/flexslider/). Slider has been adapted to integrate more closely with the Kraken boilerplate and be easier to use.
+A simple, fluid, touch-enabled carousel.
 
 Slider is a fork of the amazing [FlexSlider by Woo Themes](http://www.woothemes.com/flexslider/) that's been adapted to integrate more closely with the [Kraken boilerplate](http://cferdinandi.github.io/kraken/) and be easier to use.
 
