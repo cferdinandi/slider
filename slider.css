@@ -1,17 +1,19 @@
 /* =============================================================
 
-    Slider v2.0
-    A simple, fluid, touch-enabled carousel forked from FlexSlider by WooThemes.
+    Slider v3.0
+    A simple, responsive, touch-enabled image slider, forked from Swipe.
 
-    CSS by WooThemes with contributing author Tyler Smith, 2012.
-    http://www.woothemes.com/flexslider/
-    https://twitter.com/mbmufffin
+    Script by Brad Birdsall.
+    http://swipejs.com/
 
-    Rebounded by Chris Ferdinandi, 2013.
+    Forked by Chris Ferdinandi.
     http://gomakethings.com
 
-    Licensed under GPLv2.
-    http://www.gnu.org/licenses/gpl-2.0.html
+    Code contributed by Ron Ilan.
+    https://github.com/bradbirdsall/Swipe/pull/277
+
+    Licensed under the MIT license.
+    http://gomakethings.com/mit/
     
  * ============================================================= */
 
@@ -45,179 +47,51 @@ img, audio, video, canvas { max-width: 100%; }
 
 /* =============================================================
     SLIDER
-    Progressively-enhanced carousel styling.
+    Progressively-enhanced image slider styling.
  * ============================================================= */
 
-/*  Set styling for slides and navigation controls. */
-.slides,
-.flex-control-nav,
-.flex-direction-nav {
-    margin: 0; 
-    padding: 0; 
-    list-style: none;
+/*  When HTML5 JS features supported, hide slider */
+.js .slider {
+    position: relative;
+    overflow: hidden;
+    visibility: hidden;
 }
 
-/*  Default margin-bottom for slides. */
-.slides > li {
+/*  When HTML5 JS features supported, hide slides */
+.js .slides {
+    overflow: hidden;
+    position: relative;
+}
+
+/*  Add a margin-bottom to each slide */
+.slides > div {
     margin-bottom: .470588235em;
 }
 
-/*  If JS activated, remove margin-bottom from slides. */
-.js .slides > li {
+/*  When HTML5 JS features supported,
+ *  set width to 100%, float slides to the left,
+ *  and remove the margin-bottom. */
+.js .slides > div {
+    width: 100%;
+    float: left;
+    position: relative;
     margin-bottom: 0;
 }
 
-/*  Set width of slide images to 100%. */
-.flexslider .slides img {
-    width: 100%;
-    display: block;
+/*  Make slider images fluid */
+.slides img {
+    max-width: 100%;
+    height: auto;
 }
 
-/*  Basic formatting for slider. */
-.flexslider {
-    margin: 0 0 4em;
-    padding: 0;
-    position: relative;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    zoom: 1;
+/*  Remove floats */
+.slider:before, .slider:after { 
+    display: table; 
+    content: ""; 
+    *zoom: 1; 
 }
 
-/*  Sets the maximum height and transition styles for the viewport area. 
- *  This is not in the default markup. Added by flexslider.js script. */
-.flex-viewport {
-    max-height: 120em;
-    -webkit-transition: all 1s ease;
-       -moz-transition: all 1s ease;
-        -ms-transition: all 1s ease;
-         -o-transition: all 1s ease;
-            transition: all 1s ease;
-}
-
-/*  Maximum height of the viewport while loading. */
-.loading .flex-viewport {
-    max-height: 18em;
-}
-
-/*  Bugfix for IE7 and lower. */
-.flexslider .slides {
-    zoom: 1;
-}
-
-/*  Default margin-right for multi-image sliders. */
-.carousel li {
-    margin-right: .294117647em;
-}
-
-
-
-/*  Direction Nav */
-/*  Styling for the back/next arrows. */
-
-/*  General direction navigation styling.
- *  Sets size, location, background color, etc. */
-.flex-direction-nav a {
-    font-size: 1.529411765em;
-    line-height: 1;
-    color: #ffffff;
-    background-color: #272727;
-    text-decoration: none;
-    position: absolute;
-    top: 50%;
-    padding: .470588235em .235294118em .235294118em;
-    z-index: 10;
-    cursor: pointer;
-    opacity: .7; 
-    filter: alpha(opacity=70);
-}
-
-/*  Direction navigation styling on hover. */
-.flex-direction-nav a:hover {
-    opacity: 1; 
-    filter: alpha(opacity=100); 
-}
-
-/*  Screen-reader class for better accessibility for visually impaired. 
- *  If using with Kraken, this is redundant and can be removed. */
-.flex-direction-nav a .screen-reader {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-}
-
-/*  Position for the "next" navigation. */
-.flex-direction-nav .flex-next {
-    right: 0;
-}
-
-/*  Position for the "back" navigation. */
-.flex-direction-nav .flex-prev {
-    left: 0;
-}
-
-/*  Styling for disabled navigation arrows. 
- *  (Used if you disable "animationLoop" in slider.js.) */
-.flex-direction-nav .flex-disabled {
-    opacity: .3!important; 
-    filter:alpha(opacity=30); 
-    cursor: default;
-}
-
-
-
-/*  Control Nav */
-/*  Styling for the dots below the slider. */
-
-/*  Control nav width, location, and position. */
-.flex-control-nav {
-    width: 100%; 
-    position: absolute; 
-    bottom: -2.352941176em; 
-    text-align: center;
-}
-
-/*  Basic positioning and styles for control nav items. */
-.flex-control-nav li {
-    margin: 0 .470588235em; 
-    display: inline-block; 
-    zoom: 1; 
-    *display: inline;
-}
-
-/*  Sizing, colors and more for control nav items. */
-.flex-control-paging li a {
-    width: .647058824em; 
-    height: .647058824em; 
-    display: block; 
-    background: #666; 
-    background: rgba(0,0,0,0.5); 
-    cursor: pointer; 
-    text-indent: -9999px; 
-    border-radius: 50%;
-    -webkit-box-shadow: inset 0 0 .1875em rgba(0, 0, 0, 0.3);
-            box-shadow: inset 0 0 .1875em rgba(0, 0, 0, 0.3);
-}
-
-/*  Control nav item styling on hover. */
-.flex-control-paging li a:hover {
-    background: #333; 
-    background: rgba(0,0,0,0.7); 
-}
-
-/*  Styling for active control nav item. */
-.flex-control-paging li a.flex-active { 
-    background: #000; 
-    background: rgba(0,0,0,0.9); 
-    cursor: default; 
-}
-
-/* Clearfix for the .slides element */
-.slides:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+/*  Remove floats */
+.slider:after { 
+    clear: both; 
 }

@@ -1,16 +1,16 @@
 # Slider
-A simple, fluid, touch-enabled carousel.
+A simple, responsive, touch-enabled image slider.
 
-Slider is a fork of the amazing [FlexSlider by Woo Themes](http://www.woothemes.com/flexslider/) that's been adapted to integrate more closely with the [Kraken boilerplate](http://cferdinandi.github.io/kraken/) and be easier to use.
+Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
 
 ## How It Works
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
-### Requires jQuery
-
-FlexSlider requires [jQuery 1.4.2](http://jquery.com/) or higher.
-
 ## Changelog
+* v3.0 (August 5, 2013)
+  * Replaced core code from FlexSlider to Swipe.
+  * Dropped support for IE 8 and lower.
+  * Removed jQuery dependancy. Slider is now framework agnostic.
 * v2.1 (June 7, 2013)
   * Updated versioning to align with FlexSlider.
 * v1.3 (March 19, 2013)
@@ -24,4 +24,4 @@ FlexSlider requires [jQuery 1.4.2](http://jquery.com/) or higher.
   * Initial Commit
 
 ## License
-FlexSlider is licensed under [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html).
+FlexSlider is licensed under the [MIT License](http://gomakethings.com/mit/).
