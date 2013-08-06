@@ -68,14 +68,12 @@ img, audio, video, canvas { max-width: 100%; }
     margin-bottom: .470588235em;
 }
 
-/*  When HTML5 JS features supported,
- *  set width to 100%, float slides to the left,
- *  and remove the margin-bottom. */
+/*  When HTML5 JS features supported, set width to 100%
+ *  and float slides to the left. */
 .js .slides > div {
     width: 100%;
     float: left;
     position: relative;
-    margin-bottom: 0;
 }
 
 /*  Make slider images fluid */
