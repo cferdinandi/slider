@@ -2,10 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Slider - A simple, fluid, touch-enabled carousel.</title>
+    <title>Slider - A simple, responsive, touch-enabled content slider.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- stylesheets -->
     <link rel="stylesheet" href="slider.css" type="text/css" />
+
+    <script>
+        if ( 'querySelector' in document && 'addEventListener' in window ) {
+            document.documentElement.className += 'js';
+        }
+    </script>
 
     <!-- HTML5 Shim for IE -->
     <!--[if IE]>
@@ -17,20 +23,86 @@
 	<section class="container">
 
 	    <h1 style="text-align: center; font-size: 3em;">Slider</h1>
-	    <p style="text-align: center; font-size: 1.5em;">A simple, fluid, touch-enabled carousel.</p>
+	    <p style="text-align: center; font-size: 1.5em;">A simple, responsive, touch-enabled content slider.</p>
 
-        <div class="flexslider">
-            <ul class="slides">
-                <li><img src="img/cupcake1.jpg"></li>
-                <li><img src="img/cupcake2.jpg"></li>
-            </ul>
+        <div class="slider">
+            <div class="slides">
+                <div><img src="img/image1.jpg"></div>
+                <div><img src="img/image2.jpg"></div>
+                <div><img src="img/image3.jpg"></div>
+            </div>
         </div>
+        <div class="slide-nav"></div>
+        <div class="slide-count"></div>
 
 	</section>
 
 
     <!-- Javascript -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="slider.js"></script>
+    <script src='slider.js'></script>
+    <script>
+        if ( 'querySelector' in document && 'addEventListener' in window ) {
+
+            // Slider Variable
+            var slider = document.querySelector('.slider');
+
+            // If a Slider exists
+            if (slider) {
+
+                // Activate Slider
+                window.mySwipe = Swipe(slider, {
+                    continuous: true,
+                    callback: function(index, elem) {
+                        countSlides();
+                    },
+                });
+
+
+                // Function to display slide count
+                var countSlides = function () {
+                    // Variables
+                    var slideTotal = mySwipe.getNumSlides();
+                    var slideCurrent = mySwipe.getPos();
+                    var slideCount = document.querySelector('.slide-count');
+                    // Content
+                    if (slideCount) {
+                        slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+                    }   
+                }
+                // Run slide count function on load
+                countSlides();
+
+
+                // Create Previous & Next Buttons
+                var slideNav = document.querySelector('.slide-nav')
+                if (slideNav) {
+                    slideNav.innerHTML = '<a class="slide-nav-prev" href="#">Previous</a> | <a class="slide-nav-next" href="#">Next</a>';
+                }
+
+                // Toggle Previous & Next Buttons
+                var btnNext = document.querySelector('.slide-nav-next');
+                var btnPrev = document.querySelector('.slide-nav-prev');
+                if (btnNext) {
+                    btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
+                }
+                if (btnPrev) {
+                    btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
+                }
+
+
+                // Toggle Left & Right Keypress
+                window.addEventListener('keydown', function (e) {
+                    if (e.keyCode == 37) {
+                        mySwipe.prev();
+                    }
+                    if (e.keyCode == 39) {
+                        mySwipe.next();
+                    }
+                }, false);
+                
+            }
+
+        }
+    </script>
 </body>
 </html>
