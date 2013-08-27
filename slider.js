@@ -1,6 +1,6 @@
 /* =============================================================
 
-    Slider v3.0
+    Slider v3.1
     A simple, responsive, touch-enabled image slider, forked from Swipe.
 
     Script by Brad Birdsall.
@@ -92,28 +92,28 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         container.style.visibility = 'visible';
 
-      }
+      };
 
       var prev = function () {
 
         if (options.continuous) slide(index-1);
         else if (index) slide(index-1);
 
-      }
+      };
 
       var next = function () {
 
         if (options.continuous) slide(index+1);
         else if (index < slides.length - 1) slide(index+1);
 
-      }
+      };
 
       var circle = function (index) {
 
         // a simple positive modulo using slides.length
         return (slides.length + (index % slides.length)) % slides.length;
 
-      }
+      };
 
       var slide = function (to, slideSpeed) {
 
@@ -147,7 +147,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
           if (options.continuous) move(circle(to - direction), -(width * direction), 0); // we need to get the next in place
           
-        } else {     
+        } else {
           
           to = circle(to);
           animate(index * -width, to * -width, slideSpeed || speed);
@@ -157,14 +157,14 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
         index = to;
         visibleThree(index, slides);
         offloadFn(options.callback && options.callback(index, slides[index]));
-      }
+      };
 
       var move = function (index, dist, speed) {
 
         translate(index, dist, speed);
         slidePos[index] = dist;
 
-      }
+      };
 
       var translate = function (index, dist, speed) {
 
@@ -173,18 +173,18 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         if (!style) return;
 
-        style.webkitTransitionDuration = 
-        style.MozTransitionDuration = 
-        style.msTransitionDuration = 
-        style.OTransitionDuration = 
+        style.webkitTransitionDuration =
+        style.MozTransitionDuration =
+        style.msTransitionDuration =
+        style.OTransitionDuration =
         style.transitionDuration = speed + 'ms';
 
         style.webkitTransform = 'translate(' + dist + 'px,0)' + 'translateZ(0)';
-        style.msTransform = 
-        style.MozTransform = 
+        style.msTransform =
+        style.MozTransform =
         style.OTransform = 'translateX(' + dist + 'px)';
 
-      }
+      };
 
       var animate = function (from, to, speed) {
 
@@ -219,7 +219,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         }, 4);
 
-      }
+      };
 
       // hide all slides then show only current, next and prev
       function visibleThree(index, slides) {
@@ -246,20 +246,20 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         interval = setTimeout(next, delay);
 
-      }
+      };
 
       var stop = function () {
 
         delay = 0;
         clearTimeout(interval);
 
-      }
+      };
 
 
       // setup initial vars
       var start = {};
       var delta = {};
-      var isScrolling;      
+      var isScrolling;
 
       // setup event capturing
       var events = {
@@ -311,7 +311,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
         move: function(event) {
 
           // ensure swiping with one touch and not pinching
-          if ( event.touches.length > 1 || event.scale && event.scale !== 1) return
+          if ( event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
           if (options.disableScroll) event.preventDefault();
 
@@ -321,7 +321,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
           delta = {
             x: touches.pageX - start.x,
             y: touches.pageY - start.y
-          }
+          };
 
           // determine if scrolling test has run - one time test
           if ( typeof isScrolling == 'undefined') {
@@ -346,12 +346,12 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
             } else {
 
-              delta.x = 
-                delta.x / 
+              delta.x =
+                delta.x /
                   ( (!index && delta.x > 0               // if first slide and sliding left
-                    || index == slides.length - 1        // or if last slide and sliding right
-                    && delta.x < 0                       // and if sliding at all
-                  ) ?                      
+                  || index == slides.length - 1        // or if last slide and sliding right
+                  && delta.x < 0                       // and if sliding at all
+                  ) ?
                   ( Math.abs(delta.x) / width + 1 )      // determine resistance level
                   : 1 );                                 // no resistance if false
               
@@ -370,13 +370,13 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
           var duration = +new Date - start.time;
 
           // determine if slide attempt triggers next/prev slide
-          var isValidSlide = 
+          var isValidSlide =
                 Number(duration) < 250               // if slide duration is less than 250ms
                 && Math.abs(delta.x) > 20            // and if slide amt is greater than 20px
                 || Math.abs(delta.x) > width/2;      // or if slide amt is greater than half the width
 
           // determine if slide attempt is past start and end
-          var isPastBounds = 
+          var isPastBounds =
                 !index && delta.x > 0                            // if first slide and slide amt is greater than 0
                 || index == slides.length - 1 && delta.x < 0;    // or if last slide and slide amt is less than 0
 
@@ -403,7 +403,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
                 move(index, slidePos[index]-width, speed);
                 move(circle(index+1), slidePos[circle(index+1)]-width, speed);
-                index = circle(index+1);  
+                index = circle(index+1);
                           
               } else {
                 if (options.continuous) { // we need to get the next in this direction in place
@@ -444,8 +444,8 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
           }
 
           // kill touchmove and touchend event listeners until touchstart called again
-          element.removeEventListener('touchmove', events, false)
-          element.removeEventListener('touchend', events, false)
+          element.removeEventListener('touchmove', events, false);
+          element.removeEventListener('touchend', events, false);
 
         },
         transitionEnd: function(event) {
@@ -460,7 +460,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         }
 
-      }
+      };
 
       // trigger setup
       setup();
@@ -575,8 +575,8 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
           }
 
         }
-      }
+      };
 
-    }
+    };
 
 }

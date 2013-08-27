@@ -7,6 +7,8 @@ Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhanc
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
 ## Changelog
+* v3.2 (August 27, 2013)
+  * Ran through JSHint.
 * v3.0 (August 5, 2013)
   * Replaced core code from FlexSlider to Swipe.
   * Dropped support for IE 8 and lower.
