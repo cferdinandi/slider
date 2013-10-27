@@ -1,12 +1,14 @@
 # Slider
-A simple, responsive, touch-enabled image slider.
-
-Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
+A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
 
 ## How It Works
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
 ## Changelog
+* v3.3 (October 26, 2013)
+  * [Added transitionEnd bug fix](https://github.com/cferdinandi/slider/issues/1).
+  * Converted from spaces to tabs.
+  * Removed `*zoom: 1` IE hack.
 * v3.2 (August 27, 2013)
   * Ran through JSHint.
 * v3.0 (August 5, 2013)

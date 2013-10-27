@@ -1,582 +1,586 @@
 /* =============================================================
 
-    Slider v3.1
-    A simple, responsive, touch-enabled image slider, forked from Swipe.
+		Slider v3.3
+		A simple, responsive, touch-enabled image slider, forked from Swipe.
 
-    Script by Brad Birdsall.
-    http://swipejs.com/
+		Script by Brad Birdsall.
+		http://swipejs.com/
 
-    Forked by Chris Ferdinandi.
-    http://gomakethings.com
+		Forked by Chris Ferdinandi.
+		http://gomakethings.com
 
-    Code contributed by Ron Ilan.
-    https://github.com/bradbirdsall/Swipe/pull/277
+		Code contributed by Ron Ilan.
+		https://github.com/bradbirdsall/Swipe/pull/277
 
-    Licensed under the MIT license.
-    http://gomakethings.com/mit/
-    
+		Licensed under the MIT license.
+		http://gomakethings.com/mit/
+
  * ============================================================= */
 
 if ( 'querySelector' in document && 'addEventListener' in window ) {
 
-    var Swipe = function (container, options) {
+	var Swipe = function (container, options) {
 
-      "use strict";
+		"use strict";
 
-      // utilities
-      var noop = function() {}; // simple no operation function
-      var offloadFn = function(fn) { setTimeout(fn || noop, 0) }; // offload a functions execution
-      
-      // check browser capabilities
-      var browser = {
-        addEventListener: !!window.addEventListener,
-        touch: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
-        transitions: (function(temp) {
-          var props = ['transitionProperty', 'WebkitTransition', 'MozTransition', 'OTransition', 'msTransition'];
-          for ( var i in props ) if (temp.style[ props[i] ] !== undefined) return true;
-          return false;
-        })(document.createElement('swipe'))
-      };
+		// utilities
+		var noop = function() {}; // simple no operation function
+		var offloadFn = function(fn) { setTimeout(fn || noop, 0) }; // offload a functions execution
 
-      // quit if no root element
-      if (!container) return;
-      var element = container.children[0];
-      var slides, slidePos, width, length;
-      options = options || {};
-      var index = parseInt(options.startSlide - 1, 10) || 0;
-      var speed = options.speed || 300;
-      options.continuous = options.continuous !== undefined ? options.continuous : true;
+		// check browser capabilities
+		var browser = {
+			addEventListener: !!window.addEventListener,
+			touch: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+			transitions: (function(temp) {
+				var props = ['transitionProperty', 'WebkitTransition', 'MozTransition', 'OTransition', 'msTransition'];
+				for ( var i in props ) if (temp.style[ props[i] ] !== undefined) return true;
+				return false;
+			})(document.createElement('swipe'))
+		};
 
-      var setup = function () {
+		// quit if no root element
+		if (!container) return;
+		var element = container.children[0];
+		var slides, slidePos, width, length;
+		options = options || {};
+		var index = parseInt(options.startSlide - 1, 10) || 0;
+		var speed = options.speed || 300;
+		options.continuous = options.continuous !== undefined ? options.continuous : true;
 
-        // cache slides
-        slides = element.children;
-        length = slides.length;
+		var setup = function () {
 
-        // set continuous to false if only one slide
-        if (slides.length < 2) options.continuous = false;
+			// cache slides
+			slides = element.children;
+			length = slides.length;
 
-        // create an array to store current positions of each slide
-        slidePos = new Array(slides.length);
+			// set continuous to false if only one slide
+			if (slides.length < 2) options.continuous = false;
 
-        // determine width of each slide
-        width = container.getBoundingClientRect().width || container.offsetWidth;
+			// create an array to store current positions of each slide
+			slidePos = new Array(slides.length);
 
-        element.style.width = (slides.length * width) + 'px';
+			// determine width of each slide
+			width = container.getBoundingClientRect().width || container.offsetWidth;
 
-        // stack elements
-        var pos = slides.length;
-        while(pos--) {
+			element.style.width = (slides.length * width) + 'px';
 
-          var slide = slides[pos];
+			// stack elements
+			var pos = slides.length;
+			while(pos--) {
 
-          slide.style.width = width + 'px';
-          slide.setAttribute('data-index', pos);
+				var slide = slides[pos];
 
-          if (browser.transitions) {
-            slide.style.left = (pos * -width) + 'px';
-            move(pos, index > pos ? -width : (index < pos ? width : 0), 0);
-          }
+				slide.style.width = width + 'px';
+				slide.setAttribute('data-index', pos);
 
-        }
+				if (browser.transitions) {
+					slide.style.left = (pos * -width) + 'px';
+					move(pos, index > pos ? -width : (index < pos ? width : 0), 0);
+				}
 
-        // reposition elements before and after index
-        if (options.continuous && browser.transitions) {
-          move(circle(index-1), -width, 0);
-          move(circle(index+1), width, 0);
-        }
+			}
 
-        if (!browser.transitions) element.style.left = (index * -width) + 'px';
+			// reposition elements before and after index
+			if (options.continuous && browser.transitions) {
+				move(circle(index-1), -width, 0);
+				move(circle(index+1), width, 0);
+			}
 
-        visibleThree(index, slides);
+			if (!browser.transitions) element.style.left = (index * -width) + 'px';
 
-        container.style.visibility = 'visible';
+			visibleThree(index, slides);
 
-      };
+			container.style.visibility = 'visible';
 
-      var prev = function () {
+		};
 
-        if (options.continuous) slide(index-1);
-        else if (index) slide(index-1);
+		var prev = function () {
 
-      };
+			if (options.continuous) slide(index-1);
+			else if (index) slide(index-1);
 
-      var next = function () {
+		};
 
-        if (options.continuous) slide(index+1);
-        else if (index < slides.length - 1) slide(index+1);
+		var next = function () {
 
-      };
+			if (options.continuous) slide(index+1);
+			else if (index < slides.length - 1) slide(index+1);
 
-      var circle = function (index) {
+		};
 
-        // a simple positive modulo using slides.length
-        return (slides.length + (index % slides.length)) % slides.length;
+		var circle = function (index) {
 
-      };
+			// a simple positive modulo using slides.length
+			return (slides.length + (index % slides.length)) % slides.length;
 
-      var slide = function (to, slideSpeed) {
+		};
 
-        // do nothing if already on requested slide
-        if (index == to) return;
-        
-        if (browser.transitions) {
+		var slide = function (to, slideSpeed) {
 
-          var direction = Math.abs(index-to) / (index-to); // 1: backward, -1: forward
+			// do nothing if already on requested slide
+			if (index == to) return;
 
-          // get the actual position of the slide
-          if (options.continuous) {
-            var natural_direction = direction;
-            direction = -slidePos[circle(to)] / width;
+			if (browser.transitions) {
 
-            // if going forward but to < index, use to = slides.length + to
-            // if going backward but to > index, use to = -slides.length + to
-            if (direction !== natural_direction) to =  -direction * slides.length + to;
+				var direction = Math.abs(index-to) / (index-to); // 1: backward, -1: forward
 
-          }
+				// get the actual position of the slide
+				if (options.continuous) {
+					var natural_direction = direction;
+					direction = -slidePos[circle(to)] / width;
 
-          var diff = Math.abs(index-to) - 1;
+					// if going forward but to < index, use to = slides.length + to
+					// if going backward but to > index, use to = -slides.length + to
+					if (direction !== natural_direction) to =  -direction * slides.length + to;
 
-          // move all the slides between index and to in the right direction
-          while (diff--) move( circle((to > index ? to : index) - diff - 1), width * direction, 0);
-                
-          to = circle(to);
+				}
 
-          move(index, width * direction, slideSpeed || speed);
-          move(to, 0, slideSpeed || speed);
+				var diff = Math.abs(index-to) - 1;
 
-          if (options.continuous) move(circle(to - direction), -(width * direction), 0); // we need to get the next in place
-          
-        } else {
-          
-          to = circle(to);
-          animate(index * -width, to * -width, slideSpeed || speed);
-          //no fallback for a circular continuous if the browser does not accept transitions
-        }
+				// move all the slides between index and to in the right direction
+				while (diff--) move( circle((to > index ? to : index) - diff - 1), width * direction, 0);
 
-        index = to;
-        visibleThree(index, slides);
-        offloadFn(options.callback && options.callback(index, slides[index]));
-      };
+				to = circle(to);
 
-      var move = function (index, dist, speed) {
+				move(index, width * direction, slideSpeed || speed);
+				move(to, 0, slideSpeed || speed);
 
-        translate(index, dist, speed);
-        slidePos[index] = dist;
+				if (options.continuous) move(circle(to - direction), -(width * direction), 0); // we need to get the next in place
 
-      };
+			} else {
 
-      var translate = function (index, dist, speed) {
+				to = circle(to);
+				animate(index * -width, to * -width, slideSpeed || speed);
+				//no fallback for a circular continuous if the browser does not accept transitions
+			}
 
-        var slide = slides[index];
-        var style = slide && slide.style;
+			index = to;
+			offloadFn(options.callback && options.callback(index, slides[index]));
+		};
 
-        if (!style) return;
+		var move = function (index, dist, speed) {
 
-        style.webkitTransitionDuration =
-        style.MozTransitionDuration =
-        style.msTransitionDuration =
-        style.OTransitionDuration =
-        style.transitionDuration = speed + 'ms';
+			translate(index, dist, speed);
+			slidePos[index] = dist;
 
-        style.webkitTransform = 'translate(' + dist + 'px,0)' + 'translateZ(0)';
-        style.msTransform =
-        style.MozTransform =
-        style.OTransform = 'translateX(' + dist + 'px)';
+		};
 
-      };
+		var translate = function (index, dist, speed) {
 
-      var animate = function (from, to, speed) {
+			var slide = slides[index];
+			var style = slide && slide.style;
 
-        // if not an animation, just reposition
-        if (!speed) {
+			if (!style) return;
 
-          element.style.left = to + 'px';
-          return;
+			style.webkitTransitionDuration =
+			style.MozTransitionDuration =
+			style.msTransitionDuration =
+			style.OTransitionDuration =
+			style.transitionDuration = speed + 'ms';
 
-        }
-        
-        var start = +new Date;
-        
-        var timer = setInterval(function() {
+			style.webkitTransform = 'translate(' + dist + 'px,0)' + 'translateZ(0)';
+			style.msTransform =
+			style.MozTransform =
+			style.OTransform = 'translateX(' + dist + 'px)';
 
-          var timeElap = +new Date - start;
-          
-          if (timeElap > speed) {
+		};
 
-            element.style.left = to + 'px';
+		var animate = function (from, to, speed) {
 
-            if (delay) begin();
+			// if not an animation, just reposition
+			if (!speed) {
 
-            options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
+				element.style.left = to + 'px';
+				return;
 
-            clearInterval(timer);
-            return;
+			}
 
-          }
+			var start = +new Date;
 
-          element.style.left = (( (to - from) * (Math.floor((timeElap / speed) * 100) / 100) ) + from) + 'px';
+			var timer = setInterval(function() {
 
-        }, 4);
+				var timeElap = +new Date - start;
 
-      };
+				if (timeElap > speed) {
 
-      // hide all slides then show only current, next and prev
-      function visibleThree(index, slides) {
+					element.style.left = to + 'px';
 
-        var pos = slides.length;
+					if (delay) begin();
 
-        while(pos--) {
+					options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
 
-          slides[pos].style.visibility = 'hidden';
+					clearInterval(timer);
+					return;
 
-          if(pos === circle(index) || pos === circle(index-1) || pos === circle(index+1)){
-            slides[pos].style.visibility = 'visible';
-          }
+				}
 
-        }
+				element.style.left = (( (to - from) * (Math.floor((timeElap / speed) * 100) / 100) ) + from) + 'px';
 
-      }
+			}, 4);
 
-      // setup auto slideshow
-      var delay = options.auto || 0;
-      var interval;
+		};
 
-      var begin = function () {
+		// hide all slides other than current one
+		function visibleThree(index, slides) {
 
-        interval = setTimeout(next, delay);
+			var pos = slides.length;
 
-      };
+			// first make this one visible
+			slides[index].style.visibility = 'visible';
 
-      var stop = function () {
+			// then check all others for hiding
+			while(pos--) {
 
-        delay = 0;
-        clearTimeout(interval);
+				if(pos === circle(index) || pos === circle(index-1) || pos === circle(index+1)){
+					slides[pos].style.visibility = 'visible';
+				} else {
+					slides[pos].style.visibility = 'hidden';
+				}
 
-      };
+			}
 
+		}
 
-      // setup initial vars
-      var start = {};
-      var delta = {};
-      var isScrolling;
+		// setup auto slideshow
+		var delay = options.auto || 0;
+		var interval;
 
-      // setup event capturing
-      var events = {
+		var begin = function () {
 
-        handleEvent: function(event) {
+			interval = setTimeout(next, delay);
 
-          switch (event.type) {
-            case 'touchstart': this.start(event); break;
-            case 'touchmove': this.move(event); break;
-            case 'touchend': offloadFn(this.end(event)); break;
-            case 'webkitTransitionEnd':
-            case 'msTransitionEnd':
-            case 'oTransitionEnd':
-            case 'otransitionend':
-            case 'transitionend': offloadFn(this.transitionEnd(event)); break;
-            case 'resize': offloadFn(setup.call()); break;
-          }
+		};
 
-          if (options.stopPropagation) event.stopPropagation();
+		var stop = function () {
 
-        },
-        start: function(event) {
+			delay = 0;
+			clearTimeout(interval);
 
-          var touches = event.touches[0];
+		};
 
-          // measure start values
-          start = {
 
-            // get initial touch coords
-            x: touches.pageX,
-            y: touches.pageY,
+		// setup initial vars
+		var start = {};
+		var delta = {};
+		var isScrolling;
 
-            // store time to determine touch duration
-            time: +new Date
+		// setup event capturing
+		var events = {
 
-          };
-          
-          // used for testing first move event
-          isScrolling = undefined;
+			handleEvent: function(event) {
 
-          // reset delta and end measurements
-          delta = {};
+				switch (event.type) {
+					case 'touchstart': this.start(event); break;
+					case 'touchmove': this.move(event); break;
+					case 'touchend': offloadFn(this.end(event)); break;
+					case 'webkitTransitionEnd':
+					case 'msTransitionEnd':
+					case 'oTransitionEnd':
+					case 'otransitionend':
+					case 'transitionend': offloadFn(this.transitionEnd(event)); break;
+					case 'resize': offloadFn(setup.call()); break;
+				}
 
-          // attach touchmove and touchend listeners
-          element.addEventListener('touchmove', this, false);
-          element.addEventListener('touchend', this, false);
+				if (options.stopPropagation) event.stopPropagation();
 
-        },
-        move: function(event) {
+			},
+			start: function(event) {
 
-          // ensure swiping with one touch and not pinching
-          if ( event.touches.length > 1 || event.scale && event.scale !== 1) return;
+				var touches = event.touches[0];
 
-          if (options.disableScroll) event.preventDefault();
+				// measure start values
+				start = {
 
-          var touches = event.touches[0];
+					// get initial touch coords
+					x: touches.pageX,
+					y: touches.pageY,
 
-          // measure change in x and y
-          delta = {
-            x: touches.pageX - start.x,
-            y: touches.pageY - start.y
-          };
+					// store time to determine touch duration
+					time: +new Date
 
-          // determine if scrolling test has run - one time test
-          if ( typeof isScrolling == 'undefined') {
-            isScrolling = !!( isScrolling || Math.abs(delta.x) < Math.abs(delta.y) );
-          }
+				};
 
-          // if user is not trying to scroll vertically
-          if (!isScrolling) {
+				// used for testing first move event
+				isScrolling = undefined;
 
-            // prevent native scrolling 
-            event.preventDefault();
+				// reset delta and end measurements
+				delta = {};
 
-            // stop slideshow
-            stop();
+				// attach touchmove and touchend listeners
+				element.addEventListener('touchmove', this, false);
+				element.addEventListener('touchend', this, false);
 
-            // increase resistance if first or last slide
-            if (options.continuous) { // we don't add resistance at the end
+			},
+			move: function(event) {
 
-              translate(circle(index-1), delta.x + slidePos[circle(index-1)], 0);
-              translate(index, delta.x + slidePos[index], 0);
-              translate(circle(index+1), delta.x + slidePos[circle(index+1)], 0);
+				// ensure swiping with one touch and not pinching
+				if ( event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
-            } else {
+				if (options.disableScroll) event.preventDefault();
 
-              delta.x =
-                delta.x /
-                  ( (!index && delta.x > 0               // if first slide and sliding left
-                  || index == slides.length - 1        // or if last slide and sliding right
-                  && delta.x < 0                       // and if sliding at all
-                  ) ?
-                  ( Math.abs(delta.x) / width + 1 )      // determine resistance level
-                  : 1 );                                 // no resistance if false
-              
-              // translate 1:1
-              translate(index-1, delta.x + slidePos[index-1], 0);
-              translate(index, delta.x + slidePos[index], 0);
-              translate(index+1, delta.x + slidePos[index+1], 0);
-            }
+				var touches = event.touches[0];
 
-          }
+				// measure change in x and y
+				delta = {
+					x: touches.pageX - start.x,
+					y: touches.pageY - start.y
+				};
 
-        },
-        end: function(event) {
+				// determine if scrolling test has run - one time test
+				if ( typeof isScrolling == 'undefined') {
+					isScrolling = !!( isScrolling || Math.abs(delta.x) < Math.abs(delta.y) );
+				}
 
-          // measure duration
-          var duration = +new Date - start.time;
+				// if user is not trying to scroll vertically
+				if (!isScrolling) {
 
-          // determine if slide attempt triggers next/prev slide
-          var isValidSlide =
-                Number(duration) < 250               // if slide duration is less than 250ms
-                && Math.abs(delta.x) > 20            // and if slide amt is greater than 20px
-                || Math.abs(delta.x) > width/2;      // or if slide amt is greater than half the width
+					// prevent native scrolling
+					event.preventDefault();
 
-          // determine if slide attempt is past start and end
-          var isPastBounds =
-                !index && delta.x > 0                            // if first slide and slide amt is greater than 0
-                || index == slides.length - 1 && delta.x < 0;    // or if last slide and slide amt is less than 0
+					// stop slideshow
+					stop();
 
-          if (options.continuous) isPastBounds = false;
-          
-          // determine direction of swipe (true:right, false:left)
-          var direction = delta.x < 0;
+					// increase resistance if first or last slide
+					if (options.continuous) { // we don't add resistance at the end
 
-          // if not scrolling vertically
-          if (!isScrolling) {
+						translate(circle(index-1), delta.x + slidePos[circle(index-1)], 0);
+						translate(index, delta.x + slidePos[index], 0);
+						translate(circle(index+1), delta.x + slidePos[circle(index+1)], 0);
 
-            if (isValidSlide && !isPastBounds) {
+					} else {
 
-              if (direction) {
+						delta.x =
+							delta.x /
+								( (!index && delta.x > 0               // if first slide and sliding left
+								|| index == slides.length - 1        // or if last slide and sliding right
+								&& delta.x < 0                       // and if sliding at all
+								) ?
+								( Math.abs(delta.x) / width + 1 )      // determine resistance level
+								: 1 );                                 // no resistance if false
 
-                if (options.continuous) { // we need to get the next in this direction in place
+						// translate 1:1
+						translate(index-1, delta.x + slidePos[index-1], 0);
+						translate(index, delta.x + slidePos[index], 0);
+						translate(index+1, delta.x + slidePos[index+1], 0);
+					}
 
-                  move(circle(index-1), -width, 0);
-                  move(circle(index+2), width, 0);
+				}
 
-                } else {
-                  move(index-1, -width, 0);
-                }
+			},
+			end: function(event) {
 
-                move(index, slidePos[index]-width, speed);
-                move(circle(index+1), slidePos[circle(index+1)]-width, speed);
-                index = circle(index+1);
-                          
-              } else {
-                if (options.continuous) { // we need to get the next in this direction in place
+				// measure duration
+				var duration = +new Date - start.time;
 
-                  move(circle(index+1), width, 0);
-                  move(circle(index-2), -width, 0);
+				// determine if slide attempt triggers next/prev slide
+				var isValidSlide =
+							Number(duration) < 250               // if slide duration is less than 250ms
+							&& Math.abs(delta.x) > 20            // and if slide amt is greater than 20px
+							|| Math.abs(delta.x) > width/2;      // or if slide amt is greater than half the width
 
-                } else {
-                  move(index+1, width, 0);
-                }
+				// determine if slide attempt is past start and end
+				var isPastBounds =
+							!index && delta.x > 0                            // if first slide and slide amt is greater than 0
+							|| index == slides.length - 1 && delta.x < 0;    // or if last slide and slide amt is less than 0
 
-                move(index, slidePos[index]+width, speed);
-                move(circle(index-1), slidePos[circle(index-1)]+width, speed);
-                index = circle(index-1);
+				if (options.continuous) isPastBounds = false;
 
-              }
+				// determine direction of swipe (true:right, false:left)
+				var direction = delta.x < 0;
 
-              visibleThree(index, slides);
-              options.callback && options.callback(index, slides[index]);
+				// if not scrolling vertically
+				if (!isScrolling) {
 
-            } else {
+					if (isValidSlide && !isPastBounds) {
 
-              if (options.continuous) {
+						if (direction) {
 
-                move(circle(index-1), -width, speed);
-                move(index, 0, speed);
-                move(circle(index+1), width, speed);
+							if (options.continuous) { // we need to get the next in this direction in place
 
-              } else {
+								move(circle(index-1), -width, 0);
+								move(circle(index+2), width, 0);
 
-                move(index-1, -width, speed);
-                move(index, 0, speed);
-                move(index+1, width, speed);
-              }
+							} else {
+								move(index-1, -width, 0);
+							}
 
-            }
+							move(index, slidePos[index]-width, speed);
+							move(circle(index+1), slidePos[circle(index+1)]-width, speed);
+							index = circle(index+1);
 
-          }
+						} else {
+							if (options.continuous) { // we need to get the next in this direction in place
 
-          // kill touchmove and touchend event listeners until touchstart called again
-          element.removeEventListener('touchmove', events, false);
-          element.removeEventListener('touchend', events, false);
+								move(circle(index+1), width, 0);
+								move(circle(index-2), -width, 0);
 
-        },
-        transitionEnd: function(event) {
+							} else {
+								move(index+1, width, 0);
+							}
 
-          if (parseInt(event.target.getAttribute('data-index'), 10) == index) {
-            
-            if (delay) begin();
+							move(index, slidePos[index]+width, speed);
+							move(circle(index-1), slidePos[circle(index-1)]+width, speed);
+							index = circle(index-1);
 
-            options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
+						}
 
-          }
+						options.callback && options.callback(index, slides[index]);
 
-        }
+					} else {
 
-      };
+						if (options.continuous) {
 
-      // trigger setup
-      setup();
+							move(circle(index-1), -width, speed);
+							move(index, 0, speed);
+							move(circle(index+1), width, speed);
 
-      // start auto slideshow if applicable
-      if (delay) begin();
+						} else {
 
+							move(index-1, -width, speed);
+							move(index, 0, speed);
+							move(index+1, width, speed);
+						}
 
-      // add event listeners
-      if (browser.addEventListener) {
-        
-        // set touchstart event on element    
-        if (browser.touch) element.addEventListener('touchstart', events, false);
+					}
 
-        if (browser.transitions) {
-          element.addEventListener('webkitTransitionEnd', events, false);
-          element.addEventListener('msTransitionEnd', events, false);
-          element.addEventListener('oTransitionEnd', events, false);
-          element.addEventListener('otransitionend', events, false);
-          element.addEventListener('transitionend', events, false);
-        }
+				}
 
-        // set resize event on window
-        window.addEventListener('resize', events, false);
+				// kill touchmove and touchend event listeners until touchstart called again
+				element.removeEventListener('touchmove', events, false);
+				element.removeEventListener('touchend', events, false);
 
-      } else {
+			},
+			transitionEnd: function(event) {
 
-        window.onresize = function () { setup() }; // to play nice with old IE
+				visibleThree(index, slides);
 
-      }
+				if (parseInt(event.target.getAttribute('data-index'), 10) == index) {
 
-      // expose the Swipe API
-      return {
-        setup: function() {
+					if (delay) begin();
 
-          setup();
+					options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
 
-        },
-        slide: function(to, speed) {
-          
-          // cancel slideshow
-          stop();
-          
-          slide(to, speed);
+				}
 
-        },
-        prev: function() {
+			}
 
-          // cancel slideshow
-          stop();
+		};
 
-          prev();
+		// trigger setup
+		setup();
 
-        },
-        next: function() {
+		// start auto slideshow if applicable
+		if (delay) begin();
 
-          // cancel slideshow
-          stop();
 
-          next();
+		// add event listeners
+		if (browser.addEventListener) {
 
-        },
-        getPos: function() {
+			// set touchstart event on element
+			if (browser.touch) element.addEventListener('touchstart', events, false);
 
-          // return current index position
-          return index + 1;
+			if (browser.transitions) {
+				element.addEventListener('webkitTransitionEnd', events, false);
+				element.addEventListener('msTransitionEnd', events, false);
+				element.addEventListener('oTransitionEnd', events, false);
+				element.addEventListener('otransitionend', events, false);
+				element.addEventListener('transitionend', events, false);
+			}
 
-        },
-        getNumSlides: function() {
-          
-          // return total number of slides
-          return length;
-        },
-        kill: function() {
+			// set resize event on window
+			window.addEventListener('resize', events, false);
 
-          // cancel slideshow
-          stop();
+		} else {
 
-          // reset element
-          element.style.width = 'auto';
-          element.style.left = 0;
+			window.onresize = function () { setup() }; // to play nice with old IE
 
-          // reset slides
-          var pos = slides.length;
-          while(pos--) {
+		}
 
-            var slide = slides[pos];
-            slide.style.width = '100%';
-            slide.style.left = 0;
+		// expose the Swipe API
+		return {
+			setup: function() {
 
-            if (browser.transitions) translate(pos, 0, 0);
+				setup();
 
-          }
+			},
+			slide: function(to, speed) {
 
-          // removed event listeners
-          if (browser.addEventListener) {
+				// cancel slideshow
+				stop();
 
-            // remove current event listeners
-            element.removeEventListener('touchstart', events, false);
-            element.removeEventListener('webkitTransitionEnd', events, false);
-            element.removeEventListener('msTransitionEnd', events, false);
-            element.removeEventListener('oTransitionEnd', events, false);
-            element.removeEventListener('otransitionend', events, false);
-            element.removeEventListener('transitionend', events, false);
-            window.removeEventListener('resize', events, false);
+				slide(to, speed);
 
-          }
-          else {
+			},
+			prev: function() {
 
-            window.onresize = null;
+				// cancel slideshow
+				stop();
 
-          }
+				prev();
 
-        }
-      };
+			},
+			next: function() {
 
-    };
+				// cancel slideshow
+				stop();
+
+				next();
+
+			},
+			getPos: function() {
+
+				// return current index position
+				return index + 1;
+
+			},
+			getNumSlides: function() {
+
+				// return total number of slides
+				return length;
+			},
+			kill: function() {
+
+				// cancel slideshow
+				stop();
+
+				// reset element
+				element.style.width = 'auto';
+				element.style.left = 0;
+
+				// reset slides
+				var pos = slides.length;
+				while(pos--) {
+
+					var slide = slides[pos];
+					slide.style.width = '100%';
+					slide.style.left = 0;
+
+					if (browser.transitions) translate(pos, 0, 0);
+
+				}
+
+				// removed event listeners
+				if (browser.addEventListener) {
+
+					// remove current event listeners
+					element.removeEventListener('touchstart', events, false);
+					element.removeEventListener('webkitTransitionEnd', events, false);
+					element.removeEventListener('msTransitionEnd', events, false);
+					element.removeEventListener('oTransitionEnd', events, false);
+					element.removeEventListener('otransitionend', events, false);
+					element.removeEventListener('transitionend', events, false);
+					window.removeEventListener('resize', events, false);
+
+				}
+				else {
+
+					window.onresize = null;
+
+				}
+
+			}
+		};
+
+	};
 
 }
