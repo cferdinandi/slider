@@ -5,6 +5,8 @@ A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](ht
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
 ## Changelog
+* v3.5 (December 6, 2013)
+  * Set img, video, and iframe width to 100%.
 * v3.4 (December 6, 2013)
   * Added Sass support.
 * v3.3 (October 26, 2013)

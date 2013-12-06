@@ -1,6 +1,6 @@
 /* =============================================================
 
-	Slider v3.4
+	Slider v3.5
 	A simple, responsive, touch-enabled image slider, forked from Swipe.
 
 	Script by Brad Birdsall.
@@ -43,8 +43,11 @@
 }
 
 /*  Make slider images fluid */
-.slides img {
+.slides img,
+.slides video,
+.slides iframe {
   max-width: 100%;
+  width: 100%;
   height: auto;
 }
 
