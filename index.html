@@ -47,15 +47,15 @@
 		<h1 style="text-align: center; font-size: 3em;">Slider</h1>
 		<p style="text-align: center; font-size: 1.5em;">A simple, responsive, touch-enabled content slider.</p>
 
-		<div class="slider">
+		<div class="slider" data-slider>
 			<div class="slides">
 				<div><img src="img/image1.jpg"></div>
 				<div><img src="img/image2.jpg"></div>
 				<div><img src="img/image3.jpg"></div>
 			</div>
 		</div>
-		<div class="slide-nav"></div>
-		<div class="slide-count"></div>
+		<div data-slider-nav></div>
+		<div data-slider-count></div>
 
 	</section>
 
@@ -66,7 +66,7 @@
 		if ( 'querySelector' in document && 'addEventListener' in window ) {
 
 			// Slider Variable
-			var slider = document.querySelector('.slider');
+			var slider = document.querySelector('[data-slider]');
 
 			// If a Slider exists
 			if (slider) {
@@ -85,7 +85,7 @@
 					// Variables
 					var slideTotal = mySwipe.getNumSlides();
 					var slideCurrent = mySwipe.getPos();
-					var slideCount = document.querySelector('.slide-count');
+					var slideCount = document.querySelector('[data-slider-count]');
 					// Content
 					if (slideCount) {
 						slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
@@ -96,14 +96,14 @@
 
 
 				// Create Previous & Next Buttons
-				var slideNav = document.querySelector('.slide-nav')
+				var slideNav = document.querySelector('[data-slider-nav]')
 				if (slideNav) {
-					slideNav.innerHTML = '<a class="slide-nav-prev" href="#">Previous</a> | <a class="slide-nav-next" href="#">Next</a>';
+					slideNav.innerHTML = '<a data-slider-nav-prev href="#">Previous</a> | <a data-slider-nav-next href="#">Next</a>';
 				}
 
 				// Toggle Previous & Next Buttons
-				var btnNext = document.querySelector('.slide-nav-next');
-				var btnPrev = document.querySelector('.slide-nav-prev');
+				var btnNext = document.querySelector('[data-slider-nav-next]');
+				var btnPrev = document.querySelector('[data-slider-nav-prev]');
 				if (btnNext) {
 					btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
 				}
