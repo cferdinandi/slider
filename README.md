@@ -10,6 +10,7 @@ Getting started with Slider is really easy. [View the online tutorial](http://cf
   * Added namespacing to init IIFE.
   * Moved feature test to script itself for better progressive enhancement.
   * Updated looping method.
+  * iFrame videos stop playing when user leaves current slide.
 * v3.5 (December 6, 2013)
   * Set img, video, and iframe width to 100%.
 * v3.4 (December 6, 2013)
