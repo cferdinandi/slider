@@ -1,6 +1,6 @@
 /* =============================================================
 
-	Slider v3.5
+	Slider v4.0
 	A simple, responsive, touch-enabled image slider, forked from Swipe.
 
 	Script by Brad Birdsall.
@@ -17,14 +17,14 @@
 
  * ============================================================= */
 /*  When HTML5 JS features supported, hide slider */
-.js .slider {
+.js-slider .slider {
   position: relative;
   overflow: hidden;
   visibility: hidden;
 }
 
 /*  When HTML5 JS features supported, hide slides */
-.js .slides {
+.js-slider .slides {
   overflow: hidden;
   position: relative;
 }
@@ -36,7 +36,7 @@
 
 /*  When HTML5 JS features supported, set width to 100%
  *  and float slides to the left. */
-.js .slides > div {
+.js-slider .slides > div {
   width: 100%;
   float: left;
   position: relative;
