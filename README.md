@@ -5,6 +5,8 @@ A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](ht
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
 ## Changelog
+* v4.1 (Feburary 7 2014)
+  * Added support to pause HTML5 videos on a slide transition.
 * v4.0 (February 6, 2014)
   * Switched to a data attribute for the toggle selector (separates scripts from styles).
   * Added namespacing to init IIFE.

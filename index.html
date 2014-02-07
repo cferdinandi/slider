@@ -109,10 +109,14 @@
 					// Stop YouTube and Vimeo videos from playing when leaving the slide
 					var stopVideo = function () {
 						var currentSlide = mySwipe[index].getPos() - 1;
-						var video = slider.querySelector( '[data-index="' + currentSlide + '"] iframe');
+						var iframe = slider.querySelector( '[data-index="' + currentSlide + '"] iframe');
+						var video = slider.querySelector( 'video' );
+						if ( iframe !== null ) {
+							var iframeSrc = iframe.src;
+							iframe.src = iframeSrc;
+						}
 						if ( video !== null ) {
-							var videoSrc = video.src;
-							video.src = videoSrc;
+							video.pause();
 						}
 					};
 
