@@ -110,7 +110,7 @@
 					var stopVideo = function () {
 						var currentSlide = mySwipe[index].getPos() - 1;
 						var iframe = slider.querySelector( '[data-index="' + currentSlide + '"] iframe');
-						var video = slider.querySelector( 'video' );
+						var video = slider.querySelector( '[data-index="' + currentSlide + '"] video' );
 						if ( iframe !== null ) {
 							var iframeSrc = iframe.src;
 							iframe.src = iframeSrc;
