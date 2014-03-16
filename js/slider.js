@@ -64,7 +64,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 		var slides, slidePos, width, length;
 		options = options || {};
 		var index = parseInt(options.startSlide - 1, 10) || 0;
-		var speed = options.speed || 300;
+		var speed = options.speed !== undefined ? options.speed : 300;
 		options.continuous = options.continuous !== undefined ? options.continuous : true;
 
 		var setup = function () {
@@ -211,6 +211,10 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 			if (!speed) {
 
 				element.style.left = to + 'px';
+
+				visibleThree(index, slides);
+				options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
+
 				return;
 
 			}
@@ -227,6 +231,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
 					if (delay) begin();
 
+					visibleThree(index, slides);
 					options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
 
 					clearInterval(timer);
