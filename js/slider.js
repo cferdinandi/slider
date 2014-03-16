@@ -196,7 +196,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 			style.MozTransitionDuration =
 			style.msTransitionDuration =
 			style.OTransitionDuration =
-			style.transitionDuration = speed + 'ms';
+			style.transitionDuration = (speed || 1) + 'ms';
 
 			style.webkitTransform = 'translate(' + dist + 'px,0)' + 'translateZ(0)';
 			style.msTransform =
