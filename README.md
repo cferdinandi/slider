@@ -5,6 +5,8 @@ A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](ht
 Getting started with Slider is really easy. [View the online tutorial](http://cferdinandi.github.com/slider/) or dig through the `index.html` file.
 
 ## Changelog
+* v4.2 (March 15, 2014)
+  * [Added Windows Phone touch event support](https://github.com/cferdinandi/slider/issues/5).
 * v4.1 (Feburary 7 2014)
   * Added support to pause HTML5 videos on a slide transition.
 * v4.0 (February 6, 2014)
@@ -40,4 +42,4 @@ Getting started with Slider is really easy. [View the online tutorial](http://cf
   * Initial Commit
 
 ## License
-FlexSlider is licensed under the [MIT License](http://gomakethings.com/mit/).
+Slider is licensed under the [MIT License](http://gomakethings.com/mit/).

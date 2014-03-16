@@ -1,6 +1,6 @@
 /* =============================================================
 
-		Slider v4.1
+		Slider v4.2
 		A simple, responsive, touch-enabled image slider, forked from Swipe.
 
 		Script by Brad Birdsall.
@@ -25,11 +25,12 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
 		// utilities
 		var noop = function() {}; // simple no operation function
-		var offloadFn = function(fn) { setTimeout(fn || noop, 0) }; // offload a functions execution
+		var offloadFn = function(fn) { setTimeout(fn || noop, 0); }; // offload a functions execution
 
 		// check browser capabilities
 		var browser = {
 			addEventListener: !!window.addEventListener,
+			pointer: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
 			touch: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
 			transitions: (function(temp) {
 				var props = ['transitionProperty', 'WebkitTransition', 'MozTransition', 'OTransition', 'msTransition'];
@@ -37,6 +38,25 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 				return false;
 			})(document.createElement('swipe'))
 		};
+
+		var eventNames = {
+			START: 'touchstart',
+			MOVE: 'touchmove',
+			END: 'touchend'
+		};
+
+		var pointerType = 'touch';
+
+		if (window.navigator.pointerEnabled) {
+			eventNames.START = "pointerdown";
+			eventNames.MOVE = "pointermove";
+			eventNames.END = "pointerup";
+		} else if (window.navigator.msPointerEnabled) {
+			eventNames.START = "MSPointerDown";
+			eventNames.MOVE = "MSPointerMove";
+			eventNames.END = "MSPointerUp";
+			pointerType = 2;
+		}
 
 		// quit if no root element
 		if (!container) return;
@@ -270,9 +290,9 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 			handleEvent: function(event) {
 
 				switch (event.type) {
-					case 'touchstart': this.start(event); break;
-					case 'touchmove': this.move(event); break;
-					case 'touchend': offloadFn(this.end(event)); break;
+					case eventNames.START: this.start(event); break;
+					case eventNames.MOVE: this.move(event); break;
+					case eventNames.END: offloadFn(this.end(event)); break;
 					case 'webkitTransitionEnd':
 					case 'msTransitionEnd':
 					case 'oTransitionEnd':
@@ -286,7 +306,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 			},
 			start: function(event) {
 
-				var touches = event.touches[0];
+				var touches = browser.touch ? event.touches[0] : event;
 
 				// measure start values
 				start = {
@@ -307,18 +327,20 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 				delta = {};
 
 				// attach touchmove and touchend listeners
-				element.addEventListener('touchmove', this, false);
-				element.addEventListener('touchend', this, false);
+				element.addEventListener(eventNames.MOVE, this, false);
+				element.addEventListener(eventNames.END, this, false);
 
 			},
 			move: function(event) {
 
+				if ( browser.pointer && (event.pointerType !== pointerType) ) return;
+
 				// ensure swiping with one touch and not pinching
-				if ( event.touches.length > 1 || event.scale && event.scale !== 1) return;
+				if ( browser.touch && event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
 				if (options.disableScroll) event.preventDefault();
-
-				var touches = event.touches[0];
+				if ( browser.pointer && (event.pointerType !== pointerType) ) return;
+				var touches = browser.touch ? event.touches[0] : event;
 
 				// measure change in x and y
 				delta = {
@@ -446,8 +468,8 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 				}
 
 				// kill touchmove and touchend event listeners until touchstart called again
-				element.removeEventListener('touchmove', events, false);
-				element.removeEventListener('touchend', events, false);
+				element.removeEventListener(eventNames.MOVE, events, false);
+				element.removeEventListener(eventNames.END, events, false);
 
 			},
 			transitionEnd: function(event) {
@@ -477,7 +499,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 		if (browser.addEventListener) {
 
 			// set touchstart event on element
-			if (browser.touch) element.addEventListener('touchstart', events, false);
+			if (browser.touch || browser.pointer) element.addEventListener(eventNames.START, events, false);
 
 			if (browser.transitions) {
 				element.addEventListener('webkitTransitionEnd', events, false);
@@ -563,7 +585,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 				if (browser.addEventListener) {
 
 					// remove current event listeners
-					element.removeEventListener('touchstart', events, false);
+					element.removeEventListener(eventNames.START, events, false);
 					element.removeEventListener('webkitTransitionEnd', events, false);
 					element.removeEventListener('msTransitionEnd', events, false);
 					element.removeEventListener('oTransitionEnd', events, false);
