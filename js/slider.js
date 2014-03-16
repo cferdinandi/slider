@@ -227,6 +227,7 @@ if ( 'querySelector' in document && 'addEventListener' in window ) {
 
 					if (delay) begin();
 
+					visibleThree(index, slides);
 					options.transitionEnd && options.transitionEnd.call(event, index, slides[index]);
 
 					clearInterval(timer);
