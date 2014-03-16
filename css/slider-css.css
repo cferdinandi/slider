@@ -1,6 +1,6 @@
 /* =============================================================
 
-	Slider v4.1
+	Slider v4.2
 	A simple, responsive, touch-enabled image slider, forked from Swipe.
 
 	Script by Brad Birdsall.
@@ -21,6 +21,9 @@
   position: relative;
   overflow: hidden;
   visibility: hidden;
+  /* required for windows phone: */
+  -ms-touch-action: none;
+  touch-action: none;
 }
 
 /*  When HTML5 JS features supported, hide slides */
@@ -56,7 +59,8 @@
 }
 
 /*  Remove floats */
-.slider:before, .slider:after {
+.slider:before,
+.slider:after {
   display: table;
   content: "";
 }
