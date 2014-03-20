@@ -12,6 +12,7 @@ A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](ht
 7. [How to Contribute](#how-to-contribute)
 8. [License](#license)
 8. [Changelog](#changelog)
+9. [Older Docs](#older-docs)
 
 
 
@@ -294,3 +295,9 @@ Slider is licensed under the [MIT License](http://gomakethings.com/mit/).
   * Replaced navigation images with scalable unicode icons.
 * v1.0 - January 31, 2013
   * Initial Commit
+
+
+
+## Older Docs
+
+* [Version 2](https://github.com/cferdinandi/slider/tree/archive-v2)
