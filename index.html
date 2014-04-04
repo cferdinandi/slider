@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Slider - A simple, responsive, touch-enabled content slider.</title>
+	<title>Slider</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- A basic responsive reset -->
@@ -38,8 +38,11 @@
 <body>
 	<section class="container">
 
-		<h1 style="text-align: center; font-size: 3em;">Slider</h1>
-		<p style="text-align: center; font-size: 1.5em;">A simple, responsive, touch-enabled content slider.</p>
+		<h1 style="text-align: center; font-size: 3em; margin-bottom: 0;">Slider</h1>
+		<p style="text-align: center; font-size: 1.5em; margin: 0;">A simple, responsive, touch-enabled content slider.</p>
+		<p style="text-align: center;"><a href="https://github.com/cferdinandi/slider#readme">Slider on GitHub</a></p>
+
+		<br><br>
 
 		<div class="slider" data-slider>
 			<div class="slides">
@@ -177,6 +180,12 @@
 			}
 
 		})(window, document);
+	</script>
+	<script>
+		fluidvids.init({
+			selector: 'iframe', // runs querySelectorAll()
+			players: ['www.youtube.com'] // players to support
+		});
 	</script>
 </body>
 </html>
