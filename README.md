@@ -1,5 +1,7 @@
 # Slider
-A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes. [View the demo](http://cferdinandi.github.io/slider/).
+A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
+
+[Download Slider 4](https://github.com/cferdinandi/slider/archive/master.zip) / [View the demo](http://cferdinandi.github.io/slider/).
 
 **In This Documentation**
 
