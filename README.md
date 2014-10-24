@@ -1,6 +1,19 @@
 # Slider
 A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
 
+## Deprecation Notice
+
+Slider has been deprecated and is no longer maintained. Neither currently open nor new issues will be addressed.
+
+Increasing amounts of data indicate how [ineffective sliders are are driving business goals](https://github.com/cferdinandi/slider#more-usable-sliders) in web design. They often represent an inability of key stakeholders to reach consensus.
+
+When they do serve a focused purpose (for example, image carousels), an alternate design pattern would often better serve the user's goals (for example, just displaying all of the images full-width in a stack).
+
+Beyond pure UX-driven reasons, there are numerous bugs that keep popping up, the original script this was forked from ([SwipeJS](http://swipejs.com/)) is no longer being maintained. I won't be closing the repository, so you'll still be able to access the script and documentation, but I won't be supporting or maintaining it any longer.
+
+
+## Intro
+
 [Download Slider 4](https://github.com/cferdinandi/slider/archive/master.zip) / [View the demo](http://cferdinandi.github.io/slider/).
 
 **In This Documentation**

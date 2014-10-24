@@ -152,6 +152,8 @@
 
 					// Activate Slider
 					mySwipe[index] = Swipe(slider, {
+						speed: 500,
+						auto: 3000,
 						continuous: true,
 						callback: function(index, elem) {
 							createSlideCount(); // Update with new position on slide change
