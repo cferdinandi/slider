@@ -1,4 +1,4 @@
-# Slider
+# [DEPRECATED] Slider
 A simple, responsive, touch-enabled image slider. Slider is a fork of [Swipe](http://swipejs.com), modified for progressive enhancement, with a few added features and bug fixes.
 
 ## Deprecation Notice
@@ -269,7 +269,7 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## License
 
-Slider is licensed under the [MIT License](http://gomakethings.com/mit/).
+The code is available under the [MIT License](LICENSE.md).
 
 
 
