@@ -11,6 +11,13 @@ When they do serve a focused purpose (for example, image carousels), an alternat
 
 Beyond pure UX-driven reasons, there are numerous bugs that keep popping up, the original script this was forked from ([SwipeJS](http://swipejs.com/)) is no longer being maintained. I won't be closing the repository, so you'll still be able to access the script and documentation, but I won't be supporting or maintaining it any longer.
 
+### Alternatives
+
+If you still need or want to use a slider, checkout:
+
+- [Swiper](https://github.com/nolimits4web/swiper/)
+- [PhotoSwipe](https://github.com/dimsemenov/PhotoSwipe)
+
 
 ## Intro
 
